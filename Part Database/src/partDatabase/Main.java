@@ -5,11 +5,15 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class Main implements ActionListener {
@@ -80,21 +84,46 @@ public class Main implements ActionListener {
 		toolBar.add(partDatabaseMenu);
 		toolBar.add(fileMenu);
 		
-		table = new JTable();
-		frame.add(table);
+		String[] columns = {"Name", "Descr.", "Location", "Quantity", "Notes", "Czeched Out"};
+		for(int i = 0; i < 50; i++) {
+			partList.add(new Part("Part " + i));
+		}
+		table = new JTable(getParts(),columns);
+		table.setFillsViewportHeight(true);
+		JScrollPane tableScroll = new JScrollPane(table);
+		frame.add(tableScroll);
 
 		frame.setJMenuBar(toolBar);
 		
 		frame.setVisible(true);
 	}
-
+	
+	private Object[][] getParts() {
+		Object[][] objectArray = new Object[partList.size()][6];
+		for(int i = 0; i < partList.size(); i++) {
+			Part part = partList.get(i);
+			objectArray[i][0] = part.name;
+			objectArray[i][1] = part.description;
+			objectArray[i][2] = part.location;
+			objectArray[i][3] = part.quantity;
+			objectArray[i][4] = part.notes;
+			objectArray[i][5] = part.checkedOut;
+		}
+		return objectArray;
+	}
+	
 	public void actionPerformed(ActionEvent ae) {
-		if(ae.getActionCommand().equals("open")) {
+		String action = ae.getActionCommand();
+		if(action.equals("open")) {
 			System.out.println("Open pressed");
-		} else if(ae.getActionCommand().equals("save")) {
+		} else if(action.equals("save")) {
 			System.out.println("Save pressed");
-		} else if(ae.getActionCommand().equals("exit")) {
+		} else if(action.equals("about")) {
+			JOptionPane.showMessageDialog(frame, "This database was created by Nick Burnett and Jesse King\nfor FIRST Team 1277, the Robotomies.", "Version 1.0", JOptionPane.PLAIN_MESSAGE);
+		} else if(action.equals("exit")) {
 			running = false;
+			destroy();
+			//I don't know why setting running to false isn't doing anything...
 		}
 		
 	}
