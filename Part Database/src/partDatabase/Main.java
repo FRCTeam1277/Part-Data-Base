@@ -34,6 +34,7 @@ public class Main implements ActionListener {
 				private JMenuItem addPart;
 				private JMenuItem removePart;
 			private JScrollPane tableScroll;
+				private DefaultTableModel tableModel;
 				private JTable table;
 		
 	public boolean running = true;
@@ -114,7 +115,8 @@ public class Main implements ActionListener {
 		for(int i = 0; i < 50; i++) {
 			partList.add(new Part("Part " + i));
 		}
-		table = new JTable(getParts(), columns);
+		tableModel = new DefaultTableModel(getParts(), columns);
+		table = new JTable(tableModel);
 		table.setFillsViewportHeight(true);
 		tableScroll = new JScrollPane(table);
 		frame.add(tableScroll);
@@ -139,12 +141,10 @@ public class Main implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 		if(action.equals("open")) {
-			System.out.println("Open pressed");
 			SaveManager.openfile();
 			frame.repaint();
 			createTable();
 		} else if(action.equals("save")) {
-			System.out.println("Save pressed");
 			SaveManager.saveFile();
 			frame.repaint();
 		} else if(action.equals("about")) {
@@ -164,10 +164,11 @@ public class Main implements ActionListener {
 					int result = JOptionPane.showConfirmDialog(frame, "Are you sure that you want to delete " + p.name + "?" , "Yo Dawg", JOptionPane.YES_NO_OPTION);
 					if(result == 0) {
 						partList.remove(id);
+						tableModel.removeRow(id);
+						table.removeRowSelectionInterval(0, table.getRowCount()-1);
 					}
 				}
 			}
-		
 	}
 	
 	private void destroy() {
