@@ -46,7 +46,7 @@ public class Main implements ActionListener {
 	public Main() {
 		init();
 		
-		Location l = Location.valueOf("Motor Bin");
+		//Location l = Location.valueOf("Motor Bin");
 		
 		while(running) {
 			
