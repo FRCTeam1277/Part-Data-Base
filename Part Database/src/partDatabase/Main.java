@@ -5,9 +5,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,6 +28,9 @@ public class Main implements ActionListener {
 			private JMenu fileMenu;
 				private JMenuItem openData;
 				private JMenuItem saveData;
+			private JMenu partMenu;
+				private JMenuItem addPart;
+				private JMenuItem removePart;
 		private JTable table;
 		
 	public boolean running = true;
@@ -78,6 +79,13 @@ public class Main implements ActionListener {
 				saveData = new JMenuItem("Save Database");
 				saveData.addActionListener(this);
 				saveData.setActionCommand("save");
+			partMenu = new JMenu("Part");
+				addPart = new JMenuItem("Add Part");
+				addPart.addActionListener(this);
+				addPart.setActionCommand("add_part");
+				removePart = new JMenuItem("Delete Part");
+				removePart.addActionListener(this);
+				removePart.setActionCommand("remove_part");
 			fileMenu.add(openData);
 			fileMenu.add(saveData);
 
@@ -88,7 +96,7 @@ public class Main implements ActionListener {
 		for(int i = 0; i < 50; i++) {
 			partList.add(new Part("Part " + i));
 		}
-		table = new JTable(getParts(),columns);
+		table = new JTable(getParts(), columns);
 		table.setFillsViewportHeight(true);
 		JScrollPane tableScroll = new JScrollPane(table);
 		frame.add(tableScroll);
