@@ -4,8 +4,13 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -107,10 +112,13 @@ public class Main implements ActionListener {
 		createTable();
 
 		frame.setJMenuBar(toolBar);
-		
+				
 		frame.setVisible(true);
+		frame.setIconImage(getImage("res/table.jpg"));
+
 	}
 	
+	@SuppressWarnings("serial")
 	private void createTable() {
 		if (tableScroll!=null) {
 			frame.remove(tableScroll);
@@ -119,7 +127,12 @@ public class Main implements ActionListener {
 		for(int i = 0; i < 50; i++) {
 			partList.add(new Part("Part " + i));
 		}
-		tableModel = new DefaultTableModel(getParts(), columns);
+		tableModel = new DefaultTableModel(getParts(), columns) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		table = new JTable(tableModel);
 		table.setFillsViewportHeight(true);
 		tableScroll = new JScrollPane(table);
@@ -140,6 +153,20 @@ public class Main implements ActionListener {
 			objectArray[i][5] = part.checkedOut;
 		}
 		return objectArray;
+	}
+	
+	private BufferedImage getImage(String loc) {
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File(loc));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return image;
+	}
+	
+	private ImageIcon getIcon(String loc) {
+		return new ImageIcon(loc);
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
@@ -165,7 +192,7 @@ public class Main implements ActionListener {
 				JOptionPane.showMessageDialog(frame, "You must select a Part to remove.", "Whoops.", JOptionPane.PLAIN_MESSAGE);
 			} else {
 				Part p = partList.get(id);
-				int result = JOptionPane.showConfirmDialog(frame, "Are you sure that you want to delete " + p.name + "?" , "Yo Dawg", JOptionPane.YES_NO_OPTION);
+				int result = JOptionPane.showConfirmDialog(frame, "Are you sure that you want to delete " + p.name + "?" , "Yo Dawg", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, getIcon("res/ermagerd.png"));
 				if(result == 0) {
 					partList.remove(id);
 					tableModel.removeRow(id);
