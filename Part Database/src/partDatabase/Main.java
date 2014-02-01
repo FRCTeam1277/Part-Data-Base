@@ -4,6 +4,7 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -15,15 +16,21 @@ public class Main implements ActionListener {
 	
 	private static Main mainInstance;
 	
-	private static JFrame frame;
-		private static JMenuBar toolBar;
-			private static JMenu fileMenu;
-				private static JMenuItem openData;
-				private static JMenuItem saveData;
-		private static JTable table;
+	public static ArrayList<Part> partList = new ArrayList<Part>();
+	
+	private JFrame frame;
+		private JMenuBar toolBar;
+			private JMenu partDatabaseMenu;
+				private JMenuItem about;
+				private JMenuItem close;
+			private JMenu fileMenu;
+				private JMenuItem openData;
+				private JMenuItem saveData;
+		private JTable table;
 		
+	public boolean running = true;
+	
 	private static final int SCREEN_WIDTH, SCREEN_HEIGHT;
-	public static boolean running = true;
 	
 	static {
 		DisplayMode dm = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
@@ -51,6 +58,15 @@ public class Main implements ActionListener {
 		}};
 		
 		toolBar = new JMenuBar();
+			partDatabaseMenu = new JMenu("Database");
+				about = new JMenuItem("About");
+				about.addActionListener(this);
+				about.setActionCommand("about");
+				close = new JMenuItem("Exit");
+				close.addActionListener(this);
+				close.setActionCommand("exit");
+			partDatabaseMenu.add(about);
+			partDatabaseMenu.add(close);
 			fileMenu = new JMenu("File");
 				openData = new JMenuItem("Open Database");
 				openData.addActionListener(this);
@@ -60,6 +76,8 @@ public class Main implements ActionListener {
 				saveData.setActionCommand("save");
 			fileMenu.add(openData);
 			fileMenu.add(saveData);
+
+		toolBar.add(partDatabaseMenu);
 		toolBar.add(fileMenu);
 		
 		table = new JTable();
@@ -72,9 +90,11 @@ public class Main implements ActionListener {
 
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getActionCommand().equals("open")) {
-			System.out.println("Open Pressed");
-		} else {
-			
+			System.out.println("Open pressed");
+		} else if(ae.getActionCommand().equals("save")) {
+			System.out.println("Save pressed");
+		} else if(ae.getActionCommand().equals("exit")) {
+			running = false;
 		}
 		
 	}
