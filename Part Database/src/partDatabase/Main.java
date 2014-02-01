@@ -173,7 +173,7 @@ public class Main implements ActionListener {
 				}
 			}
 		} else if(action.equals("edit_part")) {
-			
+			PartEditor.addPartDialog();
 		}
 	}
 	
