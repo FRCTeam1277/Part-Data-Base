@@ -30,7 +30,8 @@ public class Main implements ActionListener {
 			private JMenu fileMenu;
 				private JMenuItem openData;
 				private JMenuItem saveData;
-		private JTable table;
+			private JScrollPane tableScroll;
+				private JTable table;
 		
 	public boolean running = true;
 	
@@ -45,7 +46,7 @@ public class Main implements ActionListener {
 	
 	public Main() {
 		init();
-		
+		SaveManager.init("Parts.db");
 		//Location l = Location.valueOf("Motor Bin");
 		
 		while(running) {
@@ -86,18 +87,27 @@ public class Main implements ActionListener {
 		toolBar.add(partDatabaseMenu);
 		toolBar.add(fileMenu);
 		
+		createTable();
+
+		frame.setJMenuBar(toolBar);
+		
+		frame.setVisible(true);
+	}
+	
+	private void createTable() {
+		if (tableScroll!=null) {
+			frame.remove(tableScroll);
+		}
 		String[] columns = {"Name", "Descr.", "Location", "Quantity", "Notes", "Czeched Out"};
 		for(int i = 0; i < 50; i++) {
 			partList.add(new Part("Part " + i));
 		}
 		table = new JTable(getParts(),columns);
 		table.setFillsViewportHeight(true);
-		JScrollPane tableScroll = new JScrollPane(table);
+		tableScroll = new JScrollPane(table);
 		frame.add(tableScroll);
-
-		frame.setJMenuBar(toolBar);
-		
-		frame.setVisible(true);
+		frame.invalidate();
+		frame.validate();
 	}
 	
 	private Object[][] getParts() {
@@ -118,9 +128,13 @@ public class Main implements ActionListener {
 		String action = ae.getActionCommand();
 		if(action.equals("open")) {
 			System.out.println("Open pressed");
+			SaveManager.openfile();
+			frame.repaint();
+			createTable();
 		} else if(action.equals("save")) {
 			System.out.println("Save pressed");
 			SaveManager.saveFile();
+			frame.repaint();
 		} else if(action.equals("about")) {
 			JOptionPane.showMessageDialog(frame, "This database was created by Nick Burnett and Jesse King\nfor FIRST Team 1277, the Robotomies.", "Version 1.0", JOptionPane.PLAIN_MESSAGE);
 		} else if(action.equals("exit")) {

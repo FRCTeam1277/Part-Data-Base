@@ -23,6 +23,7 @@ public class SaveManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Unable to open file "+file.getPath());
+			return;
 		}
 		output.println("-version "+version);
 		for (Part p: Main.partList) {
@@ -30,6 +31,7 @@ public class SaveManager {
 		}
 		output.flush();
 		output.close();
+		System.out.println("Saved File "+file.getPath());
 	}
 	
 	public static void savePart(Part p) {
@@ -60,10 +62,10 @@ public class SaveManager {
 		try {
 			String line = input.readLine();
 
-			double version = Double.valueOf(line);
+			double version = Double.valueOf(line.split(" ")[1]);
 			Main.partList = new ArrayList<Part>();
-			while(line!=null) {
-				line = input.readLine();
+			while((line = input.readLine())!=null) {
+				
 				if (line.startsWith("-part,")) {
 					String[] comp = line.split(",");
 					Part p = new Part(comp[1]);
@@ -80,5 +82,6 @@ public class SaveManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Opened File "+file.getPath());
 	}
 }
