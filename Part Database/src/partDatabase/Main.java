@@ -5,7 +5,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -33,6 +32,7 @@ public class Main implements ActionListener {
 			private JMenu partMenu;
 				private JMenuItem addPart;
 				private JMenuItem removePart;
+				private JMenuItem editPart;
 			private JScrollPane tableScroll;
 				private DefaultTableModel tableModel;
 				private JTable table;
@@ -94,8 +94,12 @@ public class Main implements ActionListener {
 				removePart = new JMenuItem("Delete Part");
 				removePart.addActionListener(this);
 				removePart.setActionCommand("remove_part");
+				editPart = new JMenuItem("Edit Part");
+				editPart.addActionListener(this);
+				editPart.setActionCommand("edit_part");
 			partMenu.add(addPart);
 			partMenu.add(removePart);
+			partMenu.add(editPart);
 		toolBar.add(partDatabaseMenu);
 		toolBar.add(fileMenu);
 		toolBar.add(partMenu);
@@ -157,18 +161,20 @@ public class Main implements ActionListener {
 			
 		} else if(action.equals("remove_part")) {
 			int id = table.getSelectedRow();
-				if(id == -1) {
-					JOptionPane.showMessageDialog(frame, "You must select a Part to remove.", "Whoops.", JOptionPane.PLAIN_MESSAGE);
-				} else {
-					Part p = partList.get(id);
-					int result = JOptionPane.showConfirmDialog(frame, "Are you sure that you want to delete " + p.name + "?" , "Yo Dawg", JOptionPane.YES_NO_OPTION);
-					if(result == 0) {
-						partList.remove(id);
-						tableModel.removeRow(id);
-						table.removeRowSelectionInterval(0, table.getRowCount()-1);
-					}
+			if(id == -1) {
+				JOptionPane.showMessageDialog(frame, "You must select a Part to remove.", "Whoops.", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				Part p = partList.get(id);
+				int result = JOptionPane.showConfirmDialog(frame, "Are you sure that you want to delete " + p.name + "?" , "Yo Dawg", JOptionPane.YES_NO_OPTION);
+				if(result == 0) {
+					partList.remove(id);
+					tableModel.removeRow(id);
+					table.removeRowSelectionInterval(0, table.getRowCount()-1);
 				}
 			}
+		} else if(action.equals("edit_part")) {
+			
+		}
 	}
 	
 	private void destroy() {
