@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Main implements ActionListener {
 	
@@ -81,6 +82,8 @@ public class Main implements ActionListener {
 				saveData = new JMenuItem("Save Database");
 				saveData.addActionListener(this);
 				saveData.setActionCommand("save");
+			fileMenu.add(openData);
+			fileMenu.add(saveData);
 			partMenu = new JMenu("Part");
 				addPart = new JMenuItem("Add Part");
 				addPart.addActionListener(this);
@@ -88,11 +91,11 @@ public class Main implements ActionListener {
 				removePart = new JMenuItem("Delete Part");
 				removePart.addActionListener(this);
 				removePart.setActionCommand("remove_part");
-			fileMenu.add(openData);
-			fileMenu.add(saveData);
-
+			partMenu.add(addPart);
+			partMenu.add(removePart);
 		toolBar.add(partDatabaseMenu);
 		toolBar.add(fileMenu);
+		toolBar.add(partMenu);
 		
 		String[] columns = {"Name", "Descr.", "Location", "Quantity", "Notes", "Czeched Out"};
 		for(int i = 0; i < 50; i++) {
@@ -135,7 +138,20 @@ public class Main implements ActionListener {
 			running = false;
 			destroy();
 			//I don't know why setting running to false isn't doing anything...
-		}
+		} else if(action.equals("add_part")) {
+			
+		} else if(action.equals("remove_part")) {
+			int id = table.getSelectedRow();
+				if(id == -1) {
+					JOptionPane.showMessageDialog(frame, "You must select a Part to remove.", "Whoops.", JOptionPane.PLAIN_MESSAGE);
+				} else {
+					Part p = partList.get(id);
+					int result = JOptionPane.showConfirmDialog(frame, "Are you sure that you want to delete " + p.name + "?" , "Yo Dawg", JOptionPane.YES_NO_OPTION);
+					if(result == 0) {
+						partList.remove(id);
+					}
+				}
+			}
 		
 	}
 	
