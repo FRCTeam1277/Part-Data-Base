@@ -47,6 +47,8 @@ public class Main implements ActionListener {
 	public Main() {
 		init();
 		
+		//Location l = Location.valueOf("Motor Bin");
+		
 		while(running) {
 			
 		}
@@ -126,6 +128,7 @@ public class Main implements ActionListener {
 			System.out.println("Open pressed");
 		} else if(action.equals("save")) {
 			System.out.println("Save pressed");
+			SaveManager.saveFile();
 		} else if(action.equals("about")) {
 			JOptionPane.showMessageDialog(frame, "This database was created by Nick Burnett and Jesse King\nfor FIRST Team 1277, the Robotomies.", "Version 1.0", JOptionPane.PLAIN_MESSAGE);
 		} else if(action.equals("exit")) {
