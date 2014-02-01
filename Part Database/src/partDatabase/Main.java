@@ -42,6 +42,8 @@ public class Main implements ActionListener {
 	public Main() {
 		init();
 		
+		Location l = Location.valueOf("Motor Bin");
+		
 		while(running) {
 			
 		}
@@ -93,6 +95,7 @@ public class Main implements ActionListener {
 			System.out.println("Open pressed");
 		} else if(ae.getActionCommand().equals("save")) {
 			System.out.println("Save pressed");
+			SaveManager.saveFile();
 		} else if(ae.getActionCommand().equals("exit")) {
 			running = false;
 		}

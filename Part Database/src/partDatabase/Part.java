@@ -7,6 +7,7 @@ public class Part {
 	String notes;
 	int quantity;
 	boolean checkedOut;
+	String whoChecked;
 	
 	public Part(String name) {
 		this(name, Location.UNKNOWN, 0, "","");

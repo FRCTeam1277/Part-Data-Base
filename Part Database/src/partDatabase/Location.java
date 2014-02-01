@@ -11,4 +11,13 @@ public enum Location {
 		
 	}
 	
+	public static Location getLocationByName(String name) {
+		for (Location l : Location.values()) {
+			if (l.name.equals(name)) {
+				return l;
+			}
+		}
+		return UNKNOWN;
+	}
+	
 }
