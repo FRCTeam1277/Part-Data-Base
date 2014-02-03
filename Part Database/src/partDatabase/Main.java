@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Main implements ActionListener {
 	
-	private static Main mainInstance;
+	public static Main mainInstance;
 	
 	public static ArrayList<Part> partList = new ArrayList<Part>();
 	
@@ -119,7 +119,7 @@ public class Main implements ActionListener {
 	}
 	
 	@SuppressWarnings("serial")
-	private void createTable() {
+	public void createTable() {
 		if (tableScroll!=null) {
 			frame.remove(tableScroll);
 		}
