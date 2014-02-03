@@ -20,4 +20,11 @@ public enum Location {
 		return UNKNOWN;
 	}
 	
+	public static String[] getLocationNames() {
+		String[] names = new String[Location.values().length];
+		for (int i=0; i<Location.values().length; i++) {
+			names[i] = Location.values()[i].name;
+		}
+		return names;
+	}
 }

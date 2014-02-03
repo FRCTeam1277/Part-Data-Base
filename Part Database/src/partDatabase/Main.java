@@ -1,6 +1,5 @@
 package partDatabase;
 
-import java.awt.Color;
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
@@ -24,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Main implements ActionListener {
 	
-	private static Main mainInstance;
+	public static Main mainInstance;
 	
 	public static ArrayList<Part> partList = new ArrayList<Part>();
 	
@@ -57,15 +56,6 @@ public class Main implements ActionListener {
 	}
 	
 	public Main() {
-		init();
-		SaveManager.init("Parts.db");
-		//Location l = Location.valueOf("Motor Bin");
-		
-		while(running) {
-			
-		}
-		
-		destroy();
 	}
 	
 	@SuppressWarnings("serial")
@@ -116,17 +106,30 @@ public class Main implements ActionListener {
 		toolBar.add(fileMenu);
 		toolBar.add(partMenu);
 		
-		createTable();
+		updaeTable();
 
 		frame.setJMenuBar(toolBar);
 				
 		frame.setVisible(true);
 		frame.setIconImage(getImage("res/table.jpg"));
+		
+		SaveManager.init("Parts.db");
+		//Location l = Location.valueOf("Motor Bin");
+		
+		
 
 	}
 	
+	private void run() {
+		while(running) {
+			
+		}
+		
+		destroy();
+	}
+	
 	@SuppressWarnings("serial")
-	private void createTable() {
+	public void updaeTable() {
 		if (tableScroll!=null) {
 			frame.remove(tableScroll);
 		}
@@ -141,7 +144,6 @@ public class Main implements ActionListener {
 			}
 		};
 		table = new JTable(tableModel);
-		table.setBackground(new Color(230,230,230));
 		table.setFillsViewportHeight(true);
 		tableScroll = new JScrollPane(table);
 		frame.add(tableScroll);
@@ -182,7 +184,7 @@ public class Main implements ActionListener {
 		if(action.equals("open")) {
 			SaveManager.openfile();
 			frame.repaint();
-			createTable();
+			updaeTable();
 		} else if(action.equals("save")) {
 			SaveManager.saveFile();
 			frame.repaint();
@@ -209,7 +211,7 @@ public class Main implements ActionListener {
 				}
 			}
 		} else if(action.equals("edit_part")) {
-			
+			PartEditor.addPartDialog();
 		}
 	}
 	
@@ -220,5 +222,7 @@ public class Main implements ActionListener {
 	public static void main(String... args) {
 		mainInstance = new Main();
 		
+		mainInstance.init();
+		mainInstance.run();
 	}
 }
