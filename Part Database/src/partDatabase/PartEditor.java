@@ -49,7 +49,7 @@ public class PartEditor {
 			p.location = Location.values()[location.getSelectedIndex()];
 			p.description = description.getText();
 			Main.partList.add(p);
-			Main.mainInstance.createTable();
+			Main.mainInstance.updaeTable();
 		}
 	}
 }

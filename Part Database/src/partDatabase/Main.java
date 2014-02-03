@@ -54,15 +54,6 @@ public class Main implements ActionListener {
 	}
 	
 	public Main() {
-		init();
-		SaveManager.init("Parts.db");
-		//Location l = Location.valueOf("Motor Bin");
-		
-		while(running) {
-			
-		}
-		
-		destroy();
 	}
 	
 	@SuppressWarnings("serial")
@@ -109,17 +100,30 @@ public class Main implements ActionListener {
 		toolBar.add(fileMenu);
 		toolBar.add(partMenu);
 		
-		createTable();
+		updaeTable();
 
 		frame.setJMenuBar(toolBar);
 				
 		frame.setVisible(true);
 		frame.setIconImage(getImage("res/table.jpg"));
+		
+		SaveManager.init("Parts.db");
+		//Location l = Location.valueOf("Motor Bin");
+		
+		
 
 	}
 	
+	private void run() {
+		while(running) {
+			
+		}
+		
+		destroy();
+	}
+	
 	@SuppressWarnings("serial")
-	public void createTable() {
+	public void updaeTable() {
 		if (tableScroll!=null) {
 			frame.remove(tableScroll);
 		}
@@ -174,7 +178,7 @@ public class Main implements ActionListener {
 		if(action.equals("open")) {
 			SaveManager.openfile();
 			frame.repaint();
-			createTable();
+			updaeTable();
 		} else if(action.equals("save")) {
 			SaveManager.saveFile();
 			frame.repaint();
@@ -210,5 +214,7 @@ public class Main implements ActionListener {
 
 	public static void main(String... args) {
 		mainInstance = new Main();
+		mainInstance.init();
+		mainInstance.run();
 	}
 }
