@@ -2,6 +2,7 @@ package partDatabase;
 
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -38,9 +39,16 @@ public class Main implements ActionListener {
 				private JMenuItem addPart;
 				private JMenuItem removePart;
 				private JMenuItem editPart;
+<<<<<<< HEAD
 			public JScrollPane tableScroll;
 				private DefaultTableModel tableModel;
 				public JTable table;
+=======
+				private JMenuItem checkoutPart;
+		private JScrollPane tableScroll;
+			private DefaultTableModel tableModel;
+			private JTable table;
+>>>>>>> branch 'master' of https://github.com/FRCTeam1277/Part-Data-Base.git
 		
 	public boolean running = true;
 	
@@ -93,9 +101,13 @@ public class Main implements ActionListener {
 				editPart = new JMenuItem("Edit Part");
 				editPart.addActionListener(this);
 				editPart.setActionCommand("edit_part");
+				checkoutPart = new JMenuItem("Checkout/Return");
+				checkoutPart.addActionListener(this);
+				checkoutPart.setActionCommand("checkout");
 			partMenu.add(addPart);
 			partMenu.add(removePart);
 			partMenu.add(editPart);
+			partMenu.add(checkoutPart);
 		toolBar.add(partDatabaseMenu);
 		toolBar.add(fileMenu);
 		toolBar.add(partMenu);
@@ -131,8 +143,15 @@ public class Main implements ActionListener {
 		if (tableScroll!=null) {
 			frame.remove(tableScroll);
 		}
+<<<<<<< HEAD
 		String[] columns = {"Name", "Descr.", "Location", "Quantity", "Notes", "Czeched Out"};
 		
+=======
+		String[] columns = {"Name", "Description", "Location", "Quantity", "Notes", "Czeched Out"};
+		for(int i = 0; i < 50; i++) {
+			partList.add(new Part("Part " + i));
+		}
+>>>>>>> branch 'master' of https://github.com/FRCTeam1277/Part-Data-Base.git
 		tableModel = new DefaultTableModel(getParts(), columns) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -194,6 +213,7 @@ public class Main implements ActionListener {
 			PartEditor.addPartDialog();
 		} else if(action.equals("remove_part")) {
 			int id = table.getSelectedRow();
+			Toolkit.getDefaultToolkit().beep();
 			if(id == -1) {
 				JOptionPane.showMessageDialog(frame, "You must select a Part to remove.", "Whoops.", JOptionPane.PLAIN_MESSAGE);
 			} else {
@@ -223,6 +243,7 @@ public class Main implements ActionListener {
 
 	public static void main(String... args) {
 		mainInstance = new Main();
+		
 		mainInstance.init();
 		mainInstance.run();
 	}
