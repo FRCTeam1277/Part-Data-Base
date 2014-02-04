@@ -10,9 +10,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -46,6 +46,9 @@ public class Main implements ActionListener {
 			private JTable table;
 		
 	public boolean running = true;
+	
+	private Random rng = new Random();
+	private boolean derpMode = false;
 	
 	private static final int SCREEN_WIDTH, SCREEN_HEIGHT;
 	
@@ -123,7 +126,9 @@ public class Main implements ActionListener {
 	
 	private void run() {
 		while(running) {
-			
+			if(derpMode) {
+				table.setBackground(new Color(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256)));
+			}
 		}
 		
 		destroy();
@@ -187,7 +192,10 @@ public class Main implements ActionListener {
 			SaveManager.saveFile();
 			frame.repaint();
 		} else if(action.equals("about")) {
+			derpMode = true;
 			JOptionPane.showMessageDialog(frame, "This database was created by Nick Burnett and Jesse King\nfor FIRST Team 1277, the Robotomies.", "Version 1.0", JOptionPane.PLAIN_MESSAGE);
+			derpMode = false;
+			table.setBackground(new Color(230,230,230));
 		} else if(action.equals("exit")) {
 			running = false;
 			destroy();
