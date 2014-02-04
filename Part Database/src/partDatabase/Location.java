@@ -27,4 +27,13 @@ public enum Location {
 		}
 		return names;
 	}
+	
+	public int getLocationNum() {
+		for (int i=0; i<Location.values().length; i++) {
+			if (Location.values()[i].equals(this)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }

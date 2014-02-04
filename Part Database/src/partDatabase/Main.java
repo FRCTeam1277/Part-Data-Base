@@ -192,7 +192,6 @@ public class Main implements ActionListener {
 			SaveManager.saveFile();
 			frame.repaint();
 		} else if(action.equals("about")) {
-			derpMode = true;
 			JOptionPane.showMessageDialog(frame, "This database was created by Nick Burnett and Jesse King\nfor FIRST Team 1277, the Robotomies.", "Version 1.0", JOptionPane.PLAIN_MESSAGE);
 			derpMode = false;
 			table.setBackground(new Color(230,230,230));
@@ -201,7 +200,7 @@ public class Main implements ActionListener {
 			destroy();
 			//I don't know why setting running to false isn't doing anything...
 		} else if(action.equals("add_part")) {
-			
+			PartEditor.addPartDialog();
 		} else if(action.equals("remove_part")) {
 			int id = table.getSelectedRow();
 			Toolkit.getDefaultToolkit().beep();
