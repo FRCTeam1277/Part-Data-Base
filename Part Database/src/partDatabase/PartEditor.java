@@ -100,7 +100,6 @@ public class PartEditor {
 			p.quantity = (Integer) quant.getValue();
 			p.location = Location.values()[location.getSelectedIndex()];
 			p.description = description.getText();
-			Main.partList.add(p);
 			Main.mainInstance.updaeTable();
 			Main.mainInstance.setTableScrollTo(Main.partList.indexOf(p));
 		}
