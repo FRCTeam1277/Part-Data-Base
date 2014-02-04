@@ -44,15 +44,16 @@ public class PartEditor {
 			System.out.println(val);
 			if (val==2||val==-1)
 				break;
-			if (name.getText().equals("")) {
+			if (name.getText().replace("~", "").equals("")) {
 				JOptionPane.showMessageDialog(null, "Items must have a name.");
 				continue;
 			}
 			add = false;
-			Part p = new Part(name.getText());
+			Part p = new Part(name.getText().replace("~", ""));
 			p.quantity = (Integer) quant.getValue();
 			p.location = Location.values()[location.getSelectedIndex()];
-			p.description = description.getText();
+			p.description = description.getText().replace("~", "");
+			p.notes = notes.getText().replace("~", "");
 			Main.partList.add(p);
 			Main.mainInstance.updateTable();
 			Main.mainInstance.setTableScrollTo(Main.partList.indexOf(p));
@@ -91,15 +92,16 @@ public class PartEditor {
 			System.out.println(val);
 			if (val==2||val==-1)
 				break;
-			if (name.getText().equals("")) {
+			if (name.getText().replace("~", "").equals("")) {
 				JOptionPane.showMessageDialog(null, "Items must have a name.");
 				continue;
 			}
 			add = false;
-			p.name = name.getText();
+			p.name = name.getText().replace("~", "");
 			p.quantity = (Integer) quant.getValue();
 			p.location = Location.values()[location.getSelectedIndex()];
-			p.description = description.getText();
+			p.description = description.getText().replace("~", "");
+			p.notes = notes.getText().replace("~", "");
 			Main.mainInstance.updateTable();
 			Main.mainInstance.setTableScrollTo(Main.partList.indexOf(p));
 		}
