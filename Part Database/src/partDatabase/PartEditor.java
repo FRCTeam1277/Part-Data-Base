@@ -88,7 +88,7 @@ public class PartEditor {
 		SpringUtilities.makeCompactGrid(input, 5, 2, 6, 6, 10, 10);
 		boolean add = true;
 		while(add) {
-			int val = JOptionPane.showConfirmDialog(null, input,"Add New Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+			int val = JOptionPane.showConfirmDialog(null, input,"Edit Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
 			System.out.println(val);
 			if (val==2||val==-1)
 				break;

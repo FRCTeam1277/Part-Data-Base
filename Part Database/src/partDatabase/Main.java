@@ -36,6 +36,7 @@ public class Main implements ActionListener {
 			private JMenu fileMenu;
 				private JMenuItem openData;
 				private JMenuItem saveData;
+				private JMenuItem newData;
 			private JMenu partMenu;
 				private JMenuItem addPart;
 				private JMenuItem removePart;
@@ -87,8 +88,12 @@ public class Main implements ActionListener {
 				saveData = new JMenuItem("Save Database");
 				saveData.addActionListener(this);
 				saveData.setActionCommand("save");
+				newData = new JMenuItem("New Database");
+				newData.addActionListener(this);
+				newData.setActionCommand("new");
 			fileMenu.add(openData);
 			fileMenu.add(saveData);
+			fileMenu.add(newData);
 			partMenu = new JMenu("Part");
 				addPart = new JMenuItem("Add Part");
 				addPart.addActionListener(this);
@@ -118,6 +123,10 @@ public class Main implements ActionListener {
 		frame.setIconImage(getImage("res/table.jpg"));
 		
 		SaveManager.init("Parts.db");
+		
+		SaveManager.openfile();
+		frame.repaint();
+		updateTable();
 		//Location l = Location.valueOf("Motor Bin");
 		
 		
