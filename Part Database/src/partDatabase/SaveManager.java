@@ -36,16 +36,16 @@ public class SaveManager {
 	
 	public static void savePart(Part p) {
 		String saveLine = "-part";
-		saveLine+=","+p.name;
-		saveLine+=","+String.valueOf(p.quantity);
-		saveLine+=","+p.location.name;
-		saveLine+=","+p.description;
-		saveLine+=","+p.notes;
-		saveLine+=","+String.valueOf(p.checkedOut);
+		saveLine+="|"+p.name;
+		saveLine+="|"+String.valueOf(p.quantity);
+		saveLine+="|"+p.location.name;
+		saveLine+="|"+p.description;
+		saveLine+="|"+p.notes;
+		saveLine+="|"+String.valueOf(p.checkedOut);
 		if (p.checkedOut) {
-			saveLine+=","+p.whoChecked;
+			saveLine+="|"+p.whoChecked;
 		}
-		saveLine+=","+p.whoChecked;
+		saveLine+="|"+p.whoChecked;
 		
 		output.println(saveLine);
 	}
@@ -67,7 +67,7 @@ public class SaveManager {
 			while((line = input.readLine())!=null) {
 				
 				if (line.startsWith("-part,")) {
-					String[] comp = line.split(",");
+					String[] comp = line.split("|");
 					Part p = new Part(comp[1]);
 					p.quantity = Integer.valueOf(comp[2]);
 					p.location = Location.getLocationByName(comp[3]);

@@ -210,7 +210,9 @@ public class Main implements ActionListener {
 				if(result == 0) {
 					partList.remove(id);
 					tableModel.removeRow(id);
-					table.removeRowSelectionInterval(0, table.getRowCount()-1);
+					if(table.getRowCount() > 1) {
+						table.removeRowSelectionInterval(0, table.getRowCount()-1);
+					}
 				}
 			}
 		} else if(action.equals("edit_part")) {
