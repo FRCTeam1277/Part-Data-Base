@@ -1,5 +1,6 @@
 package partDatabase;
 
+import java.awt.Color;
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
@@ -133,7 +134,7 @@ public class Main implements ActionListener {
 		if (tableScroll!=null) {
 			frame.remove(tableScroll);
 		}
-		String[] columns = {"Name", "Description", "Location", "Quantity", "Notes", "Czeched Out"};
+		String[] columns = {"Name", "Description", "Location", "Quantity", "Notes", "Checked Out"};
 		for(int i = 0; i < 50; i++) {
 			partList.add(new Part("Part " + i));
 		}
@@ -145,6 +146,7 @@ public class Main implements ActionListener {
 		};
 		table = new JTable(tableModel);
 		table.setFillsViewportHeight(true);
+		table.setBackground(new Color(230,230,230));
 		tableScroll = new JScrollPane(table);
 		frame.add(tableScroll);
 		frame.invalidate();
@@ -160,7 +162,7 @@ public class Main implements ActionListener {
 			objectArray[i][2] = part.location;
 			objectArray[i][3] = part.quantity;
 			objectArray[i][4] = part.notes;
-			objectArray[i][5] = part.checkedOut;
+			objectArray[i][5] = part.checkedOut?part.whoChecked:"Avaliable";
 		}
 		return objectArray;
 	}
@@ -212,6 +214,34 @@ public class Main implements ActionListener {
 			}
 		} else if(action.equals("edit_part")) {
 			PartEditor.addPartDialog();
+		} else if(action.equals("checkout")) {
+			int id = table.getSelectedRow();
+			if(id == -1) {
+				JOptionPane.showMessageDialog(frame, "What are you trying to pull here?", "Whoops.", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				Part part = partList.get(id);
+				if(part.checkedOut) {
+					int result = JOptionPane.showConfirmDialog(frame, "Welcome back " + part.whoChecked + ". Are you returning this part?", "Part Checkout", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+					if(result == 0) {
+						part.checkedOut = false;
+						part.whoChecked = ""; //For safety
+						tableModel.setValueAt("Avaliable", id, 5);
+					}
+					if(result == 2) { 
+						JOptionPane.showMessageDialog(frame, "So, you're the type of person who presses cancel?", "Get with the times", JOptionPane.PLAIN_MESSAGE);
+					}
+				} else {
+					String name = JOptionPane.showInputDialog(frame, "Please enter your name below.", "", JOptionPane.PLAIN_MESSAGE);
+					if(name.equals("")) {
+						JOptionPane.showMessageDialog(frame, "Sorry, we only give parts out to people with names.", "C'mon.", JOptionPane.PLAIN_MESSAGE);
+						actionPerformed(ae);
+					} else {
+						part.checkedOut = true;
+						part.whoChecked = name;
+						tableModel.setValueAt(name, id, 5);
+					}
+				}
+			}
 		}
 	}
 	
