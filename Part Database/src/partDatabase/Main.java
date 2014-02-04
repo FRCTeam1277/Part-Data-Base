@@ -38,9 +38,9 @@ public class Main implements ActionListener {
 				private JMenuItem addPart;
 				private JMenuItem removePart;
 				private JMenuItem editPart;
-			private JScrollPane tableScroll;
+			public JScrollPane tableScroll;
 				private DefaultTableModel tableModel;
-				private JTable table;
+				public JTable table;
 		
 	public boolean running = true;
 	
@@ -100,7 +100,7 @@ public class Main implements ActionListener {
 		toolBar.add(fileMenu);
 		toolBar.add(partMenu);
 		
-		updaeTable();
+		
 
 		frame.setJMenuBar(toolBar);
 				
@@ -110,7 +110,11 @@ public class Main implements ActionListener {
 		SaveManager.init("Parts.db");
 		//Location l = Location.valueOf("Motor Bin");
 		
+		for(int i = 0; i < 50; i++) {
+			partList.add(new Part("Part " + i));
+		}
 		
+		updaeTable();
 
 	}
 	
@@ -128,9 +132,7 @@ public class Main implements ActionListener {
 			frame.remove(tableScroll);
 		}
 		String[] columns = {"Name", "Descr.", "Location", "Quantity", "Notes", "Czeched Out"};
-		for(int i = 0; i < 50; i++) {
-			partList.add(new Part("Part " + i));
-		}
+		
 		tableModel = new DefaultTableModel(getParts(), columns) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -189,7 +191,7 @@ public class Main implements ActionListener {
 			destroy();
 			//I don't know why setting running to false isn't doing anything...
 		} else if(action.equals("add_part")) {
-			
+			PartEditor.addPartDialog();
 		} else if(action.equals("remove_part")) {
 			int id = table.getSelectedRow();
 			if(id == -1) {
@@ -204,8 +206,15 @@ public class Main implements ActionListener {
 				}
 			}
 		} else if(action.equals("edit_part")) {
-			PartEditor.addPartDialog();
+			if (table.getSelectedRow()!=-1)
+				PartEditor.editPartDialog(partList.get(table.getSelectedRow()));
 		}
+	}
+	
+	public void setTableScrollTo(int i) {
+		int max = Main.mainInstance.tableScroll.getVerticalScrollBar().getMaximum();
+		int min = Main.mainInstance.tableScroll.getVerticalScrollBar().getMinimum();
+		Main.mainInstance.tableScroll.getVerticalScrollBar().setValue((int) (min+((double)(max-min))*((double)i/(double)Main.partList.size())));
 	}
 	
 	private void destroy() {
