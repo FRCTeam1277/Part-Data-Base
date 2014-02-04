@@ -110,7 +110,7 @@ public class Main implements ActionListener {
 		toolBar.add(fileMenu);
 		toolBar.add(partMenu);
 		
-		updaeTable();
+		updateTable();
 
 		frame.setJMenuBar(toolBar);
 				
@@ -135,14 +135,12 @@ public class Main implements ActionListener {
 	}
 	
 	@SuppressWarnings("serial")
-	public void updaeTable() {
+	public void updateTable() {
 		if (tableScroll!=null) {
 			frame.remove(tableScroll);
 		}
 		String[] columns = {"Name", "Description", "Location", "Quantity", "Notes", "Checked Out"};
-		for(int i = 0; i < 50; i++) {
-			partList.add(new Part("Part " + i));
-		}
+		
 		tableModel = new DefaultTableModel(getParts(), columns) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -187,7 +185,7 @@ public class Main implements ActionListener {
 		if(action.equals("open")) {
 			SaveManager.openfile();
 			frame.repaint();
-			updaeTable();
+			updateTable();
 		} else if(action.equals("save")) {
 			SaveManager.saveFile();
 			frame.repaint();

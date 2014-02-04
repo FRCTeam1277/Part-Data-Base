@@ -54,7 +54,7 @@ public class PartEditor {
 			p.location = Location.values()[location.getSelectedIndex()];
 			p.description = description.getText();
 			Main.partList.add(p);
-			Main.mainInstance.updaeTable();
+			Main.mainInstance.updateTable();
 			Main.mainInstance.setTableScrollTo(Main.partList.indexOf(p));
 		}
 	}
@@ -100,7 +100,7 @@ public class PartEditor {
 			p.quantity = (Integer) quant.getValue();
 			p.location = Location.values()[location.getSelectedIndex()];
 			p.description = description.getText();
-			Main.mainInstance.updaeTable();
+			Main.mainInstance.updateTable();
 			Main.mainInstance.setTableScrollTo(Main.partList.indexOf(p));
 		}
 	}
