@@ -216,7 +216,8 @@ public class Main implements ActionListener {
 				}
 			}
 		} else if(action.equals("edit_part")) {
-			PartEditor.addPartDialog();
+			if (table.getSelectedRow()!=-1)
+			PartEditor.editPartDialog(partList.get(table.getSelectedRow()));
 		} else if(action.equals("checkout")) {
 			int id = table.getSelectedRow();
 			if(id == -1) {
