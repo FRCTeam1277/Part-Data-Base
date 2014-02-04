@@ -13,7 +13,7 @@ import javax.swing.SpringLayout;
 import partDatabase.lib.SpringUtilities;
 
 public class PartEditor {
-	public static void addPartDialog() {
+	public static boolean addPartDialog() {
 		JPanel addPart = new JPanel();
 		JPanel input = new JPanel(new SpringLayout());
 		JLabel nameLabel = new JLabel("Name*");
@@ -43,7 +43,7 @@ public class PartEditor {
 			int val = JOptionPane.showConfirmDialog(null, input,"Add New Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
 			System.out.println(val);
 			if (val==2||val==-1)
-				break;
+				return false;
 			if (name.getText().replace("~", "").equals("")) {
 				JOptionPane.showMessageDialog(null, "Items must have a name.");
 				continue;
@@ -57,7 +57,9 @@ public class PartEditor {
 			Main.partList.add(p);
 			Main.mainInstance.updateTable();
 			Main.mainInstance.setTableScrollTo(Main.partList.indexOf(p));
+			return true;
 		}
+		return false;
 	}
 	
 	public static void editPartDialog(Part p) {

@@ -42,6 +42,7 @@ public class Main implements ActionListener {
 				private JMenuItem removePart;
 				private JMenuItem editPart;
 				private JMenuItem checkoutPart;
+				private JMenuItem addManyParts;
 		private JScrollPane tableScroll;
 			private DefaultTableModel tableModel;
 			private JTable table;
@@ -107,10 +108,14 @@ public class Main implements ActionListener {
 				checkoutPart = new JMenuItem("Checkout/Return");
 				checkoutPart.addActionListener(this);
 				checkoutPart.setActionCommand("checkout");
+				addManyParts = new JMenuItem("Add Many Parts");
+				addManyParts.addActionListener(this);
+				addManyParts.setActionCommand("addMany");
 			partMenu.add(addPart);
 			partMenu.add(removePart);
 			partMenu.add(editPart);
 			partMenu.add(checkoutPart);
+			partMenu.add(addManyParts);
 		toolBar.add(partDatabaseMenu);
 		toolBar.add(fileMenu);
 		toolBar.add(partMenu);
@@ -256,6 +261,15 @@ public class Main implements ActionListener {
 						}
 					}
 				}
+			}
+		} else if (action.equals("new")) {
+			partList = new ArrayList<Part>();
+			updateTable();
+		}
+		else if (action.equals("addMany")) {
+			boolean flag = true;
+			while(flag) {
+				flag = PartEditor.addPartDialog();
 			}
 		}
 	}
