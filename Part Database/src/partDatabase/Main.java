@@ -250,6 +250,12 @@ public class Main implements ActionListener {
 		}
 	}
 	
+	public void setTableScrollTo(int i) {
+		int max = Main.mainInstance.tableScroll.getVerticalScrollBar().getMaximum();
+		int min = Main.mainInstance.tableScroll.getVerticalScrollBar().getMinimum();
+		Main.mainInstance.tableScroll.getVerticalScrollBar().setValue((int) (min+((double)(max-min))*((double)i/(double)Main.partList.size())));
+	}
+	
 	private void destroy() {
 		System.exit(0);
 	}
