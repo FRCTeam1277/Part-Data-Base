@@ -144,7 +144,7 @@ public class Main implements ActionListener {
 		updateTable();
 		//Location l = Location.valueOf("Motor Bin");
 		
-		
+		filterString = "";
 
 	}
 	
