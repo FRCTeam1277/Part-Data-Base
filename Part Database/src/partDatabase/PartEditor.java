@@ -13,6 +13,8 @@ import javax.swing.SpringLayout;
 import partDatabase.lib.SpringUtilities;
 
 public class PartEditor {
+	static int last = 0;
+	
 	public static boolean addPartDialog() {
 		JPanel addPart = new JPanel();
 		JPanel input = new JPanel(new SpringLayout());
@@ -37,7 +39,11 @@ public class PartEditor {
 		input.add(description);
 		input.add(notesLabel);
 		input.add(notes);
+		name.setFocusable(true);
+		name.requestFocusInWindow();
+		location.setSelectedIndex(last);
 		SpringUtilities.makeCompactGrid(input, 5, 2, 6, 6, 10, 10);
+
 		boolean add = true;
 		while(add) {
 			int val = JOptionPane.showConfirmDialog(null, input,"Add New Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
@@ -52,6 +58,7 @@ public class PartEditor {
 			Part p = new Part(name.getText().replace("~", ""));
 			p.quantity = (Integer) quant.getValue();
 			p.location = Location.values()[location.getSelectedIndex()];
+			last = location.getSelectedIndex();
 			p.description = description.getText().replace("~", "");
 			p.notes = notes.getText().replace("~", "");
 			Main.partList.add(p);
@@ -87,6 +94,9 @@ public class PartEditor {
 		input.add(description);
 		input.add(notesLabel);
 		input.add(notes);
+		name.setFocusable(true);
+		name.requestFocusInWindow();
+		location.setSelectedIndex(last);
 		SpringUtilities.makeCompactGrid(input, 5, 2, 6, 6, 10, 10);
 		boolean add = true;
 		while(add) {
@@ -102,6 +112,7 @@ public class PartEditor {
 			p.name = name.getText().replace("~", "");
 			p.quantity = (Integer) quant.getValue();
 			p.location = Location.values()[location.getSelectedIndex()];
+			last = location.getSelectedIndex();
 			p.description = description.getText().replace("~", "");
 			p.notes = notes.getText().replace("~", "");
 			Main.mainInstance.updateTable();

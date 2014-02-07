@@ -7,23 +7,76 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+
 public class SaveManager {
 	public static double version;
 	
-	private static File file;
+	public static File file;
 	private static PrintStream output;
 	public static void init(String fileName) {
 		file = new File(fileName);
 		
 	}
 	
-	public static void saveFile() {
+	public static String getExtension(File f) {
+        String ext = null;
+        String s = f.getName();
+        int i = s.lastIndexOf('.');
+ 
+        if (i > 0 &&  i < s.length() - 1) {
+            ext = s.substring(i+1).toLowerCase();
+        }
+        return ext;
+    }
+	
+	public static boolean chooseSave() {
+		JFileChooser cho = new JFileChooser(file);
+		cho.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		FileFilter emu = new FileFilter(){{}
+		@Override
+		public boolean accept(File f) {
+			if (f.isDirectory())
+				return true;
+			String ext = getExtension(f);
+			if (ext != null) {
+				if (ext.equals("db"))
+					return true;
+				else
+					return false;
+			}
+			return false;
+		}
+		@Override
+		public String getDescription() {
+			// TODO Auto-generated method stub
+			return "*.db Database Files";
+		}};
+		cho.addChoosableFileFilter((javax.swing.filechooser.FileFilter) emu);
+		cho.setFileFilter(emu);
+		cho.setSelectedFile(file);
+		
+		int choice = cho.showSaveDialog(Main.mainInstance.frame);
+		System.out.println(choice);
+		if (choice == JFileChooser.APPROVE_OPTION) {
+			File f = cho.getSelectedFile();
+			String ext = getExtension(f);
+			if (ext==null||!ext.equals("db"))
+				f = new File(f.getAbsolutePath()+".db");
+			return saveFile(f);
+		}
+		
+		return false;
+	}
+	
+	public static boolean saveFile(File file) {
 		try {
 			output = new PrintStream(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Unable to open file "+file.getPath());
-			return;
+			return false;
 		}
 		output.println("-version "+version);
 		for (Part p: Main.partList) {
@@ -32,6 +85,7 @@ public class SaveManager {
 		output.flush();
 		output.close();
 		System.out.println("Saved File "+file.getPath());
+		return true;
 	}
 	
 	public static void savePart(Part p) {
@@ -50,7 +104,46 @@ public class SaveManager {
 		output.println(saveLine);
 	}
 	
-	public static void openfile() {
+	public static boolean chooseOpen() {
+		JFileChooser cho = new JFileChooser(file);
+		cho.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		FileFilter emu = new FileFilter(){{}
+		@Override
+		public boolean accept(File f) {
+			if (f.isDirectory())
+				return true;
+			String ext = getExtension(f);
+			if (ext != null) {
+				if (ext.equals("db"))
+					return true;
+				else
+					return false;
+			}
+			return false;
+		}
+		@Override
+		public String getDescription() {
+			// TODO Auto-generated method stub
+			return "*.db Database Files";
+		}};
+		cho.addChoosableFileFilter((javax.swing.filechooser.FileFilter) emu);
+		cho.setFileFilter(emu);
+		cho.setSelectedFile(file);
+		
+		int choice = cho.showSaveDialog(Main.mainInstance.frame);
+		System.out.println(choice);
+		if (choice == JFileChooser.APPROVE_OPTION) {
+			File f = cho.getSelectedFile();
+			String ext = getExtension(f);
+			if (ext==null||!ext.equals("db"))
+				f = new File(f.getAbsolutePath()+".db");
+			return openFile(f);
+		}
+		
+		return false;
+	}
+	
+	public static boolean openFile(File file) {
 		BufferedReader input = null;
 		try {
 			input = new BufferedReader(new FileReader(file));
@@ -83,5 +176,6 @@ public class SaveManager {
 			e.printStackTrace();
 		}
 		System.out.println("Opened File "+file.getPath());
+		return true;
 	}
 }

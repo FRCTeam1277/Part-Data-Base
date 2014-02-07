@@ -2,7 +2,12 @@ package partDatabase;
 
 public enum Location {
 	
-	UNKNOWN("Unknown"),MOTOR_BIN("Motor Bin");
+	UNKNOWN("Unknown"),MOTOR_BIN("Motor Bin"),WHEELS_BIN("Wheels Bin"),SMALL_WHEEL_BIN("Small Wheel Bin"),ELECTRICAL_BIN("Electrical Bin"),
+	NEW_2014("New for 2014 Bin"),MISC("Misc. Bin"),RANDOM("Random Bin"),BUMPER_BIN("Bumper Bin"),SQUARE_BIN("Square Metal Bin"),
+	C_CHANNEL_BIN("C-Channel Bin"),MISC_METAL_BIN("Misc. Metal Bin"),ANGLED_METAL_BIN("Angled Metal Bin"),
+	PNEUMATICS_BIN("Pneumatic Bin"),STANLEY_TOOL_BOX("Stanley Tool Box"),BACK_TOOL_BOX("Black Tool Box"),
+	ELECTRICAL_SHELVES_1("Electrical Shelves 1"),ELECTRICAL_SHELVES_2("Electrical Shelves 2"),MOTOR_DRAWER("Motor Drawer"),
+	GEAR_DRAWER("Gear Drawer"),ELECTRICAL_DRAWER("Electrical Drawer"),SOFTWARE_LOCK_BOX("Software Lock Box");
 	
 	String name;
 	

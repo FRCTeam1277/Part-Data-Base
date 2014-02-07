@@ -14,12 +14,15 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class Main implements ActionListener {
@@ -28,7 +31,7 @@ public class Main implements ActionListener {
 	
 	public static ArrayList<Part> partList = new ArrayList<Part>();
 	
-	private JFrame frame;
+	public JFrame frame;
 		private JMenuBar toolBar;
 			private JMenu partDatabaseMenu;
 				private JMenuItem about;
@@ -43,6 +46,7 @@ public class Main implements ActionListener {
 				private JMenuItem editPart;
 				private JMenuItem checkoutPart;
 				private JMenuItem addManyParts;
+			private JTextField searchBar;
 		private JScrollPane tableScroll;
 			private DefaultTableModel tableModel;
 			private JTable table;
@@ -53,6 +57,8 @@ public class Main implements ActionListener {
 	private boolean derpMode = false;
 	
 	private static final int SCREEN_WIDTH, SCREEN_HEIGHT;
+	
+	private String filterString = "";
 	
 	static {
 		DisplayMode dm = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
@@ -119,6 +125,10 @@ public class Main implements ActionListener {
 		toolBar.add(partDatabaseMenu);
 		toolBar.add(fileMenu);
 		toolBar.add(partMenu);
+			searchBar = new JTextField();
+		toolBar.add(new JSeparator());
+		toolBar.add(new JLabel("Filter: "));
+		toolBar.add(searchBar);
 		
 		updateTable();
 
@@ -129,7 +139,7 @@ public class Main implements ActionListener {
 		
 		SaveManager.init("Parts.db");
 		
-		SaveManager.openfile();
+		SaveManager.openFile(SaveManager.file);
 		frame.repaint();
 		updateTable();
 		//Location l = Location.valueOf("Motor Bin");
@@ -142,6 +152,10 @@ public class Main implements ActionListener {
 		while(running) {
 			if(derpMode) {
 				table.setBackground(new Color(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256)));
+			}
+			if (searchBar.getText()!=null && !filterString.equals(searchBar.getText().toLowerCase())) {
+				filterString = searchBar.getText().toLowerCase();
+				updateTable();
 			}
 		}
 		
@@ -170,18 +184,51 @@ public class Main implements ActionListener {
 		frame.validate();
 	}
 	
+	public int getCurrentPartIndex(Part p) {
+		ArrayList<Part> filtPart = getFilteredParts();
+		for (int i = 0; i<filtPart.size();i++) {
+			if (p.equals(filtPart.get(i)))
+				return i;
+		}
+		return -1;
+	}
+	
 	private Object[][] getParts() {
-		Object[][] objectArray = new Object[partList.size()][6];
-		for(int i = 0; i < partList.size(); i++) {
-			Part part = partList.get(i);
+		ArrayList<Part> filtPart = getFilteredParts();
+		Object[][] objectArray = new Object[filtPart.size()][6];
+		for(int i = 0; i < filtPart.size(); i++) {
+			Part part = filtPart.get(i);
 			objectArray[i][0] = part.name;
 			objectArray[i][1] = part.description;
-			objectArray[i][2] = part.location;
+			objectArray[i][2] = part.location.name;
 			objectArray[i][3] = part.quantity;
 			objectArray[i][4] = part.notes;
 			objectArray[i][5] = part.checkedOut?part.whoChecked:"Available";
 		}
 		return objectArray;
+	}
+	
+	public ArrayList<Part> getFilteredParts() {
+		ArrayList<Part> filtPart = new ArrayList<Part>();
+		for(int i=0; i< partList.size(); i++) {
+			Part p = partList.get(i);
+			boolean flag = true;
+			if (!filterString.equals("")) {
+				flag = p.name.toLowerCase().contains(filterString);
+				flag |= p.notes.toLowerCase().contains(filterString);
+				flag |= p.description.toLowerCase().contains(filterString);
+				if (p.checkedOut)
+					flag |= p.whoChecked.toLowerCase().contains(filterString);
+				else 
+					flag |= "available".contains(filterString);
+				flag |= p.location.name.toLowerCase().contains(filterString);
+				flag |= String.valueOf(p.quantity).toLowerCase().contains(filterString);
+			}
+			if (flag) {
+				filtPart.add(p);
+			}
+		}
+		return filtPart;
 	}
 	
 	private BufferedImage getImage(String loc) {
@@ -197,11 +244,11 @@ public class Main implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 		if(action.equals("open")) {
-			SaveManager.openfile();
+			SaveManager.chooseOpen();
 			frame.repaint();
 			updateTable();
 		} else if(action.equals("save")) {
-			SaveManager.saveFile();
+			SaveManager.chooseSave();
 			frame.repaint();
 		} else if(action.equals("about")) {
 			JOptionPane.showMessageDialog(frame, "This database was created by Nick Burnett and Jesse King\nfor FIRST Team 1277, the Robotomies.", "Version 1.0", JOptionPane.PLAIN_MESSAGE);
