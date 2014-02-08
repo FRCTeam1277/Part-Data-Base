@@ -49,6 +49,7 @@ public class PartEditor {
 
 		boolean add = true;
 		while(add) {
+			//What the heck?
 			int val = JOptionPane.showOptionDialog(null, input,"Add New Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE, null, new Object[] {"OK", "Cancel"}, name);
 			System.out.println(val);
 			if (val==2||val==-1)
