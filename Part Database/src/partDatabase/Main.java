@@ -251,6 +251,7 @@ public class Main implements ActionListener {
 			SaveManager.chooseSave();
 			frame.repaint();
 		} else if(action.equals("about")) {
+			derpMode = true;
 			JOptionPane.showMessageDialog(frame, "This database was created by Nick Burnett and Jesse King\nfor FIRST Team 1277, the Robotomies.", "Version 1.0", JOptionPane.PLAIN_MESSAGE);
 			derpMode = false;
 			table.setBackground(new Color(230,230,230));
