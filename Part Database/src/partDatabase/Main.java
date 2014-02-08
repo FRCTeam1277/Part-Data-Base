@@ -154,9 +154,17 @@ public class Main implements ActionListener {
 				table.setBackground(new Color(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256)));
 			}
 			if(filterString != null) {
-				if (searchBar.getText()!=null && !filterString.equals(searchBar.getText().toLowerCase())) {
-					filterString = searchBar.getText().toLowerCase();
-					updateTable();
+				if(searchBar != null) {
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (searchBar.getText()!=null && !filterString.equals(searchBar.getText().toLowerCase())) {
+						filterString = searchBar.getText().toLowerCase();
+						updateTable();
+					}
 				}
 			} else {
 				System.out.println("Da heck is this?");

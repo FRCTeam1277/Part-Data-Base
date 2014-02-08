@@ -1,5 +1,7 @@
 package partDatabase;
 
+import java.awt.Graphics;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -41,12 +43,13 @@ public class PartEditor {
 		input.add(notes);
 		name.setFocusable(true);
 		name.requestFocusInWindow();
+		
 		location.setSelectedIndex(last);
 		SpringUtilities.makeCompactGrid(input, 5, 2, 6, 6, 10, 10);
 
 		boolean add = true;
 		while(add) {
-			int val = JOptionPane.showConfirmDialog(null, input,"Add New Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+			int val = JOptionPane.showOptionDialog(null, input,"Add New Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE, null, new Object[] {"OK", "Cancel"}, name);
 			System.out.println(val);
 			if (val==2||val==-1)
 				return false;
@@ -100,7 +103,7 @@ public class PartEditor {
 		SpringUtilities.makeCompactGrid(input, 5, 2, 6, 6, 10, 10);
 		boolean add = true;
 		while(add) {
-			int val = JOptionPane.showConfirmDialog(null, input,"Edit Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+			int val = JOptionPane.showOptionDialog(null, input,"Edit Part",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE, null, new Object[] {"OK", "Cancel"}, name);
 			System.out.println(val);
 			if (val==2||val==-1)
 				break;
